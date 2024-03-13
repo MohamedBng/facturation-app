@@ -1,0 +1,56 @@
+<style>
+  #dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Ajuste l'espacement entre les cartes */
+    gap: 1rem; /* Ajoute un peu d'espace entre les cartes */
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    margin-bottom: auto;
+  }
+
+  .dashboard-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Par défaut, prend toute la largeur */
+    max-width: 200px; /* Maximum width of the cards */
+    height: 170px;
+    background-color: #55fff5;
+    padding: 1rem;
+    border-radius: 15px;
+    color: black;
+    margin-bottom: 1rem; /* Ajoute un espace en bas de chaque carte */
+  }
+
+  .card-link img {
+    width: 3rem;
+    align-self: flex-start;
+  }
+
+  /* Media query pour les écrans d'au moins 600px de large */
+  @media (min-width: 600px) {
+    .dashboard-card {
+      width: calc(50% - 1rem);
+    }
+  }
+
+  /* Media query pour les écrans plus larges, par exemple 900px */
+  @media (min-width: 900px) {
+    .dashboard-card {
+      width: calc(33.333% - 1rem); /* Pour afficher 3 cartes par ligne sur des écrans plus larges */
+    }
+  }
+</style>
+
+<div id="dashboard-cards">
+   <% if policy(User).new? %>
+    <div class="dashboard-card">
+      <p class="card-title">Ajouter un Nouvel Utilisateur</p>
+      <a class="card-link" href="<%= new_admin_user_path %>">
+        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
+      </a>
+    </div>
+  <% end %>
+</div>

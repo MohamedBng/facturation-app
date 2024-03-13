@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BackofficeModel</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+
+    .sidebar-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-logo img {
+      width: 40%;
+      max-width: 120px;
+      margin: auto;
+      display: block;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5em;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .nav-icon {
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .nav-link:hover {
+      color: #f8f9fa;
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .nav-item {
+      margin-bottom: 10px;
+    }
+
+    .bg-dark {
+      padding-top: 10px;
+      background-color: #343a40 !important;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      position: fixed; /* Ensure the sidebar stays at the left */
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 16.666667%; /* col-2 width */
+    }
+
+    .container-fluid {
+      padding-left: 16.666667%;
+    }
+
+    .alert {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+    }
+
+    .nav-item .link-text {
+      display: inline;
+    }
+
+    .header-admin {
+      padding: 20px 0px 20px 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      background-color: #343a40 !important;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      width: 100%;
+      position: fixed;
+    }
+
+    .container {
+      padding: 20px;
+      margin-top: 70px;
+    }
+    @media (max-width: 768px) {
+      .nav-item .link-text, .navbar-brand {
+        display: none;
+      }
+
+      nav.col-2 {
+        width: 80px;
+        min-width: 80px;
+      }
+
+      .navbar-brand, .nav-link{
+        justify-content: center;
+      }
+
+      .nav-icon {
+        margin-right: 0;
+      }
+
+      .sidebar-logo img {
+        width: 60%;
+      }
+
+      .container-fluid {
+        padding-left: 80px; /* Adjusted for the reduced sidebar */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <% flash.each do |type, message| %>
+    <% bootstrap_class = case type
+      when 'notice' then 'alert-success'
+      when 'alert' then 'alert-warning'
+      when 'error' then 'alert-danger'
+      else 'alert-info'
+      end %>
+    <div class="alert <%= bootstrap_class %> alert-dismissible fade show" d="flash" role="alert">
+      <%= message %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    </div>
+  <% end %>
+
+  <div class="container-fluid">
+    <div class="row vh-100">
+      <nav class="col-2 bg-dark d-flex flex-column justify-content-between">
+        <div>
+          <div class="sidebar-logo">
+            <%= image_tag "logo.png", alt: "Logo de l'entreprise", class: "img-fluid" %>
+          </div>
+          <%= link_to "Thynk Cafe", "#", class: "navbar-brand text-white" %>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <%= link_to root_path, class: "nav-link text-white" do %>
+                <%= image_tag "home-icon.svg", alt: "Accueil", class: "nav-icon" %><span class="link-text">Accueil</span>
+              <% end %>
+            </li>
+            <% if policy(User).index? %>
+              <li class="nav-item">
+                <%= link_to admin_users_path, class: "nav-link text-white" do %>
+                  <%= image_tag "users-icon.svg", alt: "Utilisateurs", class: "nav-icon" %><span class="link-text">Utilisateurs</span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <%= link_to admin_user_path(current_user), class: "nav-link text-white" do %>
+                <%= image_tag "user-icon.svg", alt: "Mon compte", class: "nav-icon" %><span class="link-text">Mon compte</span>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do %>
+                <%= image_tag "logout-icon.svg", alt: "Déconnexion", class: "nav-icon" %> <span class="link-text">Déconnexion</span>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="col-30" style="padding-right: 0;">
+        <div class="header-admin">
+          Bienvenue <%= current_user.firstname %>
+        </div>
+        <div class="container">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

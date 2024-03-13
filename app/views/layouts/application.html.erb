@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BackofficeModel</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <% flash.each do |type, message| %>
+      <% bootstrap_class = case type
+        when 'notice' then 'alert-success'
+        when 'alert' then 'alert-warning'
+        when 'error' then 'alert-danger'
+        else 'alert-info'
+        end %>
+      <div class="alert <%= bootstrap_class %> alert-dismissible fade show" d="flash" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+fr:
+  admin:
+    dashboard:
+      add_new_user: "Ajouter un Nouvel Utilisateur"
+    users:
+      created: "Utilisateur créé avec succès."
+      updated: "Utilisateur mis à jour avec succès."
+      destroyed: "Utilisateur supprimé avec succès."
+      form:
+        create: "Créer Utilisateur"
+        email: "E-mail"
+        firstname: "Prénom"
+        lastname: "Nom"
+        password: "Mot de passe"
+        password_confirmation: "Confirmation du mot de passe"
+        role: "Rôle"
+        submit: "Envoyer"
+        select_role: "Sélectionnez un rôle"
+        update: "Mettre à jour Utilisateur"
+  activerecord:
+    models:
+      user: "Utilisateur"
+    attributes:
+      user:
+        email: "E-mail"
+        firstname: "Prénom"
+        lastname: "Nom"
+        password: "Mot de passe"
+        password_confirmation: "Confirmation du mot de passe"
+        role: "Rôle"
+    errors:
+      messages:
+        blank: "ne peut pas être vide"
+        confirmation: "ne correspond pas"
+        record_invalid: "La validation a échoué"
+      models:
+        user:
+          attributes:
+            email:
+              taken: "est déjà utilisé"
+            password_confirmation:
+              confirmation: "ne correspond pas"
+            role:
+              blank: "ne peut pas être vide"
+            firstname:
+              blank: "ne peut pas être vide"
+            lastname:
+              blank: "ne peut pas être vide"
