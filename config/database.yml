@@ -78,7 +78,4 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: backoffice_model_production
-  username: backoffice_model
-  password: <%= ENV["BACKOFFICE_MODEL_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>

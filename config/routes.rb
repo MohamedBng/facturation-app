@@ -12,5 +12,11 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'dashboard', to: 'dashboard#index'
     resources :users
+    resources :clients
+    resources :devis do
+      member do
+        get 'show_pdf'
+      end
+    end
   end
 end

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Devis <%= @devi.id %></title>
+  <style>
+    body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+    }
+    .header .company-info, .header .client-info {
+      width: 40%;
+    }
+    .company-info {
+      text-align: left;
+      position: absolute;
+      left: 0;
+    }
+    .client-info {
+      margin-top: 150px;
+      text-align: right;
+      position: absolute;
+      right: 0;
+    }
+    .container {
+      margin-top: 300px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .totals {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .totals td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    .footer-info {
+      margin-top: 200px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company-info">
+      <h3>AU NOM ET POUR LE COMPTE DE:</h3>
+      <p>
+        Mehdi El Hedhili<br>
+        5 AV DU MONT ALBAN<br>
+        06300 NICE<br>
+        Numéro SIRET: 80917052500012
+      </p>
+    </div>
+    <div class="client-info">
+      <h3>ADRESSÉ À:</h3>
+      <p>
+        <%= @devi.client.nom_complet %><br>
+        <%= @devi.client.adresse %><br>
+        <%= @devi.client.code_postal %> <%= @devi.client.ville %><br>
+        <% if @devi.client.num_siret.present? %>
+          Numéro SIRET: <%= @devi.client.num_siret %><br>
+        <% end %>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>PRESTATIONS:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Détail</th>
+          <th>Quantité</th>
+          <th>Prix unitaire (HT)</th>
+          <th>TOTAL (HT)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @devi.items.each do |item| %>
+        <tr>
+          <td><%= item.detail %></td>
+          <td><%= item.quantite %></td>
+          <td><%= Money.new(item.prix_unitaire_ht, "EUR").format %></td>
+          <td><%= Money.new(item.total_ht, "EUR").format %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <table class="totals">
+      <tbody>
+        <tr>
+          <td>TOTAL PRESTATION (HT)</td>
+          <td style="text-align: right;"><%= Money.new(@devi.items.sum(:total_ht), "EUR").format %></td>
+        </tr>
+        <tr>
+          <td>TVA (<%= @devi.tva %>%)</td>
+          <td style="text-align: right;"><%= Money.new(@devi.total_ttc - @devi.items.sum(:total_ht), "EUR").format %></td>
+        </tr>
+        <tr>
+          <td>TOTAL PRESTATION (TTC)</td>
+          <td style="text-align: right;"><%= Money.new(@devi.total_ttc, "EUR").format %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="footer-info">
+      MONSIEUR MEHDI EL HEDHILI, Entreprise Individuelle - Mehdi El Hedhili<br>
+      Micro entrepreneur enregistré sous le numéro 80917052500012.<br>
+      Exonéré de TVA en vertu des articles 151-0 et 293 B du CGI, dans la mesure où l'entreprise respecte les limites de chiffres d'affaires qui y sont fixées.<br>
+      Numéro de TVA Intracommunautaire: FR63809170525<br>
+    </p>
+  </div>
+</body>
+</html>

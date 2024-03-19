@@ -148,7 +148,7 @@
           <div class="sidebar-logo">
             <%= image_tag "logo.png", alt: "Logo de l'entreprise", class: "img-fluid" %>
           </div>
-          <%= link_to "Thynk Cafe", "#", class: "navbar-brand text-white" %>
+          <%= link_to "Devis App", root_path, class: "navbar-brand text-white" %>
           <ul class="nav flex-column">
             <li class="nav-item">
               <%= link_to root_path, class: "nav-link text-white" do %>
@@ -159,6 +159,20 @@
               <li class="nav-item">
                 <%= link_to admin_users_path, class: "nav-link text-white" do %>
                   <%= image_tag "users-icon.svg", alt: "Utilisateurs", class: "nav-icon" %><span class="link-text">Utilisateurs</span>
+                <% end %>
+              </li>
+            <% end %>
+            <% if policy(Client).index? %>
+              <li class="nav-item">
+                <%= link_to admin_clients_path, class: "nav-link text-white" do %>
+                  <%= image_tag "client-icon.svg", alt: "Clients", class: "nav-icon" %><span class="link-text">Clients</span>
+                <% end %>
+              </li>
+            <% end %>
+            <% if policy(Devi).index? %>
+              <li class="nav-item">
+                <%= link_to admin_devis_path, class: "nav-link text-white" do %>
+                  <%= image_tag "devis-icon.svg", alt: "Devis", class: "nav-icon" %><span class="link-text">Devis</span>
                 <% end %>
               </li>
             <% end %>

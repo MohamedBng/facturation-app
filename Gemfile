@@ -79,3 +79,9 @@ gem "devise", "~> 4.9"
 gem 'strip_attributes'
 
 gem "pundit", "~> 2.3"
+
+gem "rondo_form", "~> 0.2.5"
+gem 'simple_form'
+gem 'money-rails', '~> 1.12'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

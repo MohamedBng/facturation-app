@@ -1,0 +1,32 @@
+<h1>Devis</h1>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Client</th>
+        <th>Date</th>
+        <th>Montant Total HT</th>
+        <th>Montant Total TTC</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @devis.each do |devi| %>
+        <tr>
+          <td><%= devi.client.nom_complet %></td>
+          <td><%= devi.created_at.strftime("%d/%m/%Y") %></td>
+          <td><%= Money.new(devi.total_ht, "EUR").format %></td>
+          <td><%= Money.new(devi.total_ttc, "EUR").format %></td>
+          <td>
+            <%= link_to "Voir", admin_devi_path(devi), class: "btn btn-sm btn-info" %>
+            <%= link_to "Éditer", edit_admin_devi_path(devi), class: "btn btn-sm btn-primary" %>
+            <%= link_to "Supprimer", admin_devi_path(devi), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce devis ?' }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to "Nouveau devis", new_admin_devi_path, class: "btn btn-success" %>

@@ -47,8 +47,24 @@
 <div id="dashboard-cards">
    <% if policy(User).new? %>
     <div class="dashboard-card">
-      <p class="card-title">Ajouter un Nouvel Utilisateur</p>
+      <p class="card-title">Ajouter un Nouveau Utilisateur</p>
       <a class="card-link" href="<%= new_admin_user_path %>">
+        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
+      </a>
+    </div>
+  <% end %>
+  <% if policy(Client).new? %>
+    <div class="dashboard-card">
+      <p class="card-title">Ajouter un Nouveau Client</p>
+      <a class="card-link" href="<%= new_admin_client_path %>">
+        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
+      </a>
+    </div>
+  <% end %>
+  <% if policy(Devi).new? %>
+    <div class="dashboard-card">
+      <p class="card-title">Ajouter un Nouveau Devis</p>
+      <a class="card-link" href="<%= new_admin_devi_path %>">
         <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
       </a>
     </div>

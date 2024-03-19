@@ -1,0 +1,34 @@
+<h1>Clients</h1>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Nom Complet</th>
+        <th>Adresse</th>
+        <th>Ville</th>
+        <th>Code Postal</th>
+        <th>Num SIRET</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clients.each do |client| %>
+        <tr>
+          <td><%= client.nom_complet %></td>
+          <td><%= client.adresse %></td>
+          <td><%= client.ville %></td>
+          <td><%= client.code_postal %></td>
+          <td><%= client.num_siret %></td>
+          <td>
+            <%= link_to "Voir", admin_client_path(client), class: "btn btn-sm btn-info" %>
+            <%= link_to "Éditer", edit_admin_client_path(client), class: "btn btn-sm btn-primary" %>
+            <%= link_to "Supprimer", admin_client_path(client), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce client ?' }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to "Nouveau client", new_admin_client_path, class: "btn btn-success" %>
