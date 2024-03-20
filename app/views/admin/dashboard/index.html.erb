@@ -42,31 +42,502 @@
       width: calc(33.333% - 1rem); /* Pour afficher 3 cartes par ligne sur des écrans plus larges */
     }
   }
-</style>
 
-<div id="dashboard-cards">
-   <% if policy(User).new? %>
-    <div class="dashboard-card">
-      <p class="card-title">Ajouter un Nouveau Utilisateur</p>
-      <a class="card-link" href="<%= new_admin_user_path %>">
-        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
-      </a>
+  .date-container {
+    display: flex;
+    align-items: center;
+    width: 165px;
+    background-color: white;
+    padding: 20px;
+    gap: 19px;
+    border-radius: 15px;
+    height: 115px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  .devis-count-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 165px;
+    background-color: #004aad;
+    padding: 20px;
+    color: white;
+    gap: 5px;
+    height: 115px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+  }
+
+  .devis-count-container:hover {
+    background-color: #003c8f;
+    transform: scale(1.05);
+  }
+
+  .devis-icon img {
+    width: 30px;
+    height: auto;
+  }
+
+  .devis-number {
+    font-weight: bold;
+  }
+
+  .left .day {
+    font-size: 2rem;
+    color: #004aad;
+  }
+
+  .year {
+    font-weight: bold;
+  }
+
+  .right .year, .right .month, .right .weekday {
+    text-align: left;
+  }
+
+  .top {
+    display: flex;
+    gap: 30px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+  .devis-list-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .devis-list-container h2 {
+    color: #004aad;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .delimiter {
+    margin-bottom: 20px;
+  }
+
+  .devis-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .devis-name, .devis-date, .devis-status {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+  }
+
+  .devis-name-title, .devis-date-title, .devis-status-title {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+    font-weight: lighter;
+  }
+
+  .add-devis-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    width: 200px;
+    position: absolute;
+    bottom: 15px;
+  }
+
+  .add-devis-btn img.add-icon {
+    margin-left: 10px;
+    width: 16px;
+    height: auto;
+  }
+
+  .add-devis-btn:hover {
+    background-color: #003c8f; /* Couleur au survol */
+  }
+
+  .user-list-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .user-list-container h2 {
+    color: #004aad;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .delimiter {
+    margin-bottom: 20px;
+  }
+
+  .user-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .user-name, .user-date, .user-status {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+  }
+
+  .user-name-title, .user-date-title, .user-status-title {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+    font-weight: lighter;
+  }
+
+  .add-user-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    width: 220px;
+    position: absolute;
+    bottom: 15px;
+  }
+
+  .add-user-btn img.add-icon {
+    margin-left: 10px;
+    width: 16px;
+    height: auto;
+  }
+
+  .add-user-btn:hover {
+    background-color: #003c8f; /* Couleur au survol */
+  }
+
+  .client-list-container {
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .client-list-container h2 {
+    color: #004aad;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .delimiter {
+    margin-bottom: 20px;
+  }
+
+  .client-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .client-name, .client-date, .client-status {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+  }
+
+  .client-name-title, .client-date-title, .client-status-title {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+    font-weight: lighter;
+  }
+
+  .add-client-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    width: 200px;
+    position: absolute;
+    bottom: 15px;
+  }
+
+  .add-client-btn img.add-icon {
+    margin-left: 10px;
+    width: 16px;
+    height: auto;
+  }
+
+  .add-client-btn:hover {
+    background-color: #003c8f; /* Couleur au survol */
+  }
+
+
+  .facture-list-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  .facture-list-container h2 {
+    color: #004aad;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .delimiter {
+    margin-bottom: 20px;
+  }
+
+  .facture-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .facture-name, .facture-date, .facture-status {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+  }
+
+  .facture-name-title, .facture-date-title, .facture-status-title {
+    flex-basis: 33%; /* Divise l'espace également entre les éléments */
+    text-align: left;
+    font-weight: lighter;
+  }
+
+  .add-facture-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    width: 200px;
+  }
+
+  .add-facture-btn img.add-icon {
+    margin-left: 10px;
+    width: 16px;
+    height: auto;
+  }
+
+  .add-facture-btn:hover {
+    background-color: #003c8f; /* Couleur au survol */
+  }
+
+  .parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) repeat(2, 2fr) 0fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+
+/* Assignation des zones de grille pour chaque élément */
+  .date-container { grid-area: 1 / 1 / 2 / 2; }
+  .devis-count-container { grid-area: 1 / 2 / 2 / 3; }
+  .facture-list-container { grid-area: 1 / 3 / 3 / 6; } /* Ajustement pour l'exemple, peut nécessiter une modification */
+  .devis-list-container { grid-area: 2 / 1 / 6 / 3; } /* Ajustement pour l'exemple, peut nécessiter une modification */
+  .user-list-container { grid-area: 3 / 3 / 6 / 4; } /* Ajustement pour l'exemple, peut nécessiter une modification */
+  .client-list-container { grid-area: 3 / 4 / 6 / 5; } /* Ajustement pour l'exemple, peut nécessiter une modification */
+
+  /* Styles supplémentaires si nécessaire pour ajuster le contenu à la nouvelle mise en page */
+  .dashboard-card, .date-container, .devis-count-container, .user-list-container, .client-list-container, .facture-list-container {
+    /* Ajout d'un peu de marge pour éviter que les éléments ne se touchent */
+    margin: 0.5rem;
+  }
+
+  @media (max-width: 950px) {
+    .parent {
+      display: grid;
+      grid-template-columns: 1fr; /* Passer à une seule colonne pour les petits écrans */
+      grid-template-rows: auto auto auto auto auto; /* Définir des lignes auto-adaptatives pour chaque élément */
+      gap: 10px; /* Ajouter un peu d'espace entre les éléments pour une meilleure lisibilité */
+    }
+
+    .date-container, .devis-count-container {
+      width: 100%; /* Assurer que ces éléments prennent toute la largeur disponible */
+    }
+
+    .date-container {
+      margin: 0 auto;
+      grid-area: 1; /* Positionner explicitement dans la grille */
+      height: auto; /* Hauteur auto pour s'adapter au contenu, ou spécifiez une hauteur fixe si nécessaire */
+      /* Vous pouvez ajouter max-height ici si vous souhaitez limiter la hauteur */
+    }
+
+    .devis-count-container {
+      margin: 0 auto;
+      grid-area: 2; /* Positionner explicitement dans la grille */
+      height: auto; /* Hauteur auto pour s'adapter au contenu, ou spécifiez une hauteur fixe si nécessaire */
+      /* Vous pouvez ajouter max-height ici si vous souhaitez limiter la hauteur */
+    }
+
+    .facture-list-container {
+      position: relative;
+      z-index: 1;
+      margin: 0 auto;
+      grid-area: auto; /* Positionner explicitement dans la grille */
+      width: 100%; /* Assurer que ces éléments prennent toute la largeur disponible */
+      height: 450px; /* Permettre une hauteur auto-adaptative selon le contenu */
+      /* Ajustez la hauteur ou max-height selon le besoin pour chaque élément */
+    }
+
+    .add-facture-btn {
+      position: absolute;
+      bottom: 15px;
+    }
+
+    /* Pour les autres conteneurs, assurez-vous qu'ils prennent également toute la largeur et ajustez leur hauteur comme nécessaire */
+    .facture-list-container, .devis-list-container, .user-list-container, .client-list-container {
+      margin: 0 auto;
+      grid-area: auto; /* Positionner explicitement dans la grille */
+      width: 100%; /* Assurer que ces éléments prennent toute la largeur disponible */
+      height: 450px; /* Permettre une hauteur auto-adaptative selon le contenu */
+      /* Ajustez la hauteur ou max-height selon le besoin pour chaque élément */
+    }
+  }
+
+
+</style>
+<div class="parent">
+  <div class="date-container">
+    <div class="left">
+      <div class="day"><%= Date.today.day %></div>
     </div>
-  <% end %>
-  <% if policy(Client).new? %>
-    <div class="dashboard-card">
-      <p class="card-title">Ajouter un Nouveau Client</p>
-      <a class="card-link" href="<%= new_admin_client_path %>">
-        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
-      </a>
+    <div class="right">
+      <div class="year"><%= Date.today.year %></div>
+      <div class="month"><%= l Date.today, format: '%B' %></div>
+      <div class="weekday"><%= l Date.today, format: '%A' %></div>
     </div>
-  <% end %>
-  <% if policy(Devi).new? %>
-    <div class="dashboard-card">
-      <p class="card-title">Ajouter un Nouveau Devis</p>
-      <a class="card-link" href="<%= new_admin_devi_path %>">
-        <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid" %>
-      </a>
+  </div>
+
+  <a class="devis-count-container" href="<%= admin_devis_path %>">
+    <div class="devis-label">Nombre de devis</div>
+    <div class="devis-number"><%= Devi.count %></div>
+    <div class="devis-icon"> <%= image_tag "arrow-circle.svg", alt: "add icon", class: "img-fluid" %></div>
+  </a>
+  <div class="facture-list-container">
+    <h2>Devis récents</h2>
+    <hr class="delimiter"/>
+    <div class="facture-item">
+      <span class="facture-name-title">Nom</span>
+      <span class="facture-date-title">Date</span>
+      <span class="facture-status-title">Status</span>
     </div>
-  <% end %>
+    <div class="facture-item">
+      <span class="facture-name">Devis 1</span>
+      <span class="facture-date">20/03/2024</span>
+      <span class="facture-status">En attente</span>
+    </div>
+    <div class="facture-item">
+      <span class="facture-name">Devis 2</span>
+      <span class="facture-date">21/03/2024</span>
+      <span class="facture-status">Approuvé</span>
+    </div>
+    <a class="add-facture-btn" href="<%= new_admin_devi_path %>">
+        Ajouter un devis
+      <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
+    </a>
+  </div>
+  <div class="devis-list-container">
+    <h2>Devis récents</h2>
+    <hr class="delimiter"/>
+    <div class="devis-item">
+      <span class="devis-name-title">Nom</span>
+      <span class="devis-date-title">Date</span>
+      <span class="devis-status-title">Status</span>
+    </div>
+    <div class="devis-item">
+      <span class="devis-name">Devis 1</span>
+      <span class="devis-date">20/03/2024</span>
+      <span class="devis-status">En attente</span>
+    </div>
+    <div class="devis-item">
+      <span class="devis-name">Devis 2</span>
+      <span class="devis-date">21/03/2024</span>
+      <span class="devis-status">Approuvé</span>
+    </div>
+    <a class="add-devis-btn" href="<%= new_admin_devi_path %>">
+        Ajouter un devis
+      <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
+    </a>
+  </div>
+
+  <div class="user-list-container">
+    <h2>Utilisateurs</h2>
+    <hr class="delimiter"/>
+    <div class="user-item">
+      <span class="user-name-title">Nom</span>
+    </div>
+    <div class="user-item">
+      <span class="user-name">Devis 1</span>
+    </div>
+    <div class="user-item">
+      <span class="user-name">Devis 2</span>
+    </div>
+    <a class="add-user-btn" href="<%= new_admin_user_path %>">
+        Ajouter un utilisateur
+      <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
+    </a>
+  </div>
+
+  <div class="client-list-container">
+    <h2>Clients récents</h2>
+    <hr class="delimiter"/>
+    <div class="client-item">
+      <span class="client-name-title">Nom</span>
+    </div>
+    <div class="client-item">
+      <span class="client-name">Devis 1</span>
+    </div>
+    <div class="client-item">
+      <span class="client-name">Devis 2</span>
+    </div>
+    <a class="add-client-btn" href="<%= new_admin_client_path %>">
+        Ajouter un client
+      <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
+    </a>
+  </div>
 </div>

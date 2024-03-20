@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   <style>
     body, html {
       height: 100%;
       margin: 0;
+      background-color: #f6f6f6;
     }
 
     .sidebar-logo {
@@ -26,12 +26,35 @@
       display: block;
     }
 
+    .sidebar-mobile-logo {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      text-decoration: none;
+      gap: 10px;
+      width: 130px;
+    }
+
+    .sidebar-mobile-logo img {
+      width: 30%;
+      max-width: 120px;
+      margin: 0;
+      display: block;
+    }
+
     .navbar-brand {
       font-weight: bold;
       font-size: 1.5em;
       display: flex;
       justify-content: center;
       margin-bottom: 15px;
+    }
+
+    .navbar-mobile-brand {
+      font-weight: bold;
+      text-decoration: none;
     }
 
     .nav-icon {
@@ -60,11 +83,11 @@
       padding-top: 10px;
       background-color: #343a40 !important;
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-      position: fixed; /* Ensure the sidebar stays at the left */
+      position: fixed;
       left: 0;
       top: 0;
       bottom: 0;
-      width: 16.666667%; /* col-2 width */
+      width: 16.666667%;
     }
 
     .container-fluid {
@@ -91,41 +114,47 @@
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       width: 100%;
       position: fixed;
+      z-index: 1000;
     }
 
     .container {
       padding: 20px;
       margin-top: 70px;
     }
-    @media (max-width: 768px) {
-      .nav-item .link-text, .navbar-brand {
-        display: none;
-      }
 
-      nav.col-2 {
-        width: 80px;
-        min-width: 80px;
-      }
-
-      .navbar-brand, .nav-link{
-        justify-content: center;
-      }
-
-      .nav-icon {
-        margin-right: 0;
-      }
-
-      .sidebar-logo img {
-        width: 60%;
-      }
-
+    .burger-menu-btn {
+      position: fixed;
+      color: black;
+      top: 20px;
+      left: 20px;
+      z-index: 1100;
+      cursor: pointer;
+      display: none;
+    }
+    @media (max-width: 990px) {
       .container-fluid {
-        padding-left: 80px; /* Adjusted for the reduced sidebar */
+        padding-left: 0;
+      }
+      .navbar-toggler {
+        position: fixed;
+        z-index: 2100;
+      }
+
+      .bg-dark {
+        left: -100%;
+        transition: left 0.3s;
+      }
+
+      .bg-dark.active {
+        left: 0;
+      }
+
+      .header-admin {
+        text-align: center;
       }
     }
   </style>
 </head>
-
 <body>
   <% flash.each do |type, message| %>
     <% bootstrap_class = case type
@@ -134,13 +163,50 @@
       when 'error' then 'alert-danger'
       else 'alert-info'
       end %>
-    <div class="alert <%= bootstrap_class %> alert-dismissible fade show" d="flash" role="alert">
+    <div class="alert <%= bootstrap_class %> alert-dismissible fade show" role="alert">
       <%= message %>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    </div>
   <% end %>
-
+  <div style="background-color: #343a40;" class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header">
+      <div class="sidebar-mobile-logo">
+        <%= image_tag "logo.png", alt: "Logo de l'entreprise", class: "img-fluid" %>
+         <%= link_to "Devis App", root_path, class: "navbar-mobile-brand text-white" %>
+      </div>
+      <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <%= link_to root_path, class: "nav-link text-white" do %>
+            <%= image_tag "home-icon.svg", alt: "Accueil", class: "nav-icon" %><span class="link-text">Accueil</span>
+          <% end %>
+        </li>
+        <% if policy(User).index? %>
+          <li class="nav-item">
+            <%= link_to admin_users_path, class: "nav-link text-white" do %>
+              <%= image_tag "users-icon.svg", alt: "Utilisateurs", class: "nav-icon" %><span class="link-text">Utilisateurs</span>
+            <% end %>
+          </li>
+        <% end %>
+        <% if policy(Client).index? %>
+          <li class="nav-item">
+            <%= link_to admin_clients_path, class: "nav-link text-white" do %>
+              <%= image_tag "client-icon.svg", alt: "Clients", class: "nav-icon" %><span class="link-text">Clients</span>
+            <% end %>
+          </li>
+        <% end %>
+        <% if policy(Devi).index? %>
+          <li class="nav-item">
+            <%= link_to admin_devis_path, class: "nav-link text-white" do %>
+              <%= image_tag "devis-icon.svg", alt: "Devis", class: "nav-icon" %><span class="link-text">Devis</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
   <div class="container-fluid">
     <div class="row vh-100">
       <nav class="col-2 bg-dark d-flex flex-column justify-content-between">
@@ -196,6 +262,9 @@
 
       <div class="col-30" style="padding-right: 0;">
         <div class="header-admin">
+          <button class="navbar-toggler navbar-dark navbar-toggler-white d-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+            <span class="navbar-toggler-icon navbar-toggler-icon-white"></span>
+          </button>
           Bienvenue <%= current_user.firstname %>
         </div>
         <div class="container">

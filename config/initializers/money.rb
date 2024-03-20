@@ -8,7 +8,7 @@ MoneyRails.configure do |config|
   config.default_format = {
     no_cents_if_whole: false,
     format: "%n %u",
-    decimal_mark: ',',
+    decimal_mark: '.',
     thousands_separator: '.'
   }
 end

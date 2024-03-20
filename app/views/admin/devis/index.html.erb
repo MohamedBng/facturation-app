@@ -1,32 +1,32 @@
+<style>
+  .card {
+    color: black;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+
+  .card-header {
+    background-color: #004aad;
+    color: white;
+    border-radius: none;
+  }
+</style>
 <h1>Devis</h1>
 
-<div class="table-responsive">
-  <table class="table table-striped table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>Client</th>
-        <th>Date</th>
-        <th>Montant Total HT</th>
-        <th>Montant Total TTC</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @devis.each do |devi| %>
-        <tr>
-          <td><%= devi.client.nom_complet %></td>
-          <td><%= devi.created_at.strftime("%d/%m/%Y") %></td>
-          <td><%= Money.new(devi.total_ht, "EUR").format %></td>
-          <td><%= Money.new(devi.total_ttc, "EUR").format %></td>
-          <td>
-            <%= link_to "Voir", admin_devi_path(devi), class: "btn btn-sm btn-info" %>
-            <%= link_to "Éditer", edit_admin_devi_path(devi), class: "btn btn-sm btn-primary" %>
-            <%= link_to "Supprimer", admin_devi_path(devi), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce devis ?' }, class: "btn btn-sm btn-danger" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<% @devis.each do |devi| %>
+  <div class="card">
+    <h5 class="card-header">Devis n°<%= devi.id %></h5>
+    <div class="card-body"><%= devi.client.nom_complet %></h5>
+      <p class="card-text"><%= devi.created_at.strftime("%d/%m/%Y") %></p>
+      <p class="card-text"><%= Money.new(devi.total_ttc, "EUR").format %></p>
+      <%= link_to "Voir", admin_devi_path(devi), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Éditer", edit_admin_devi_path(devi), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Supprimer", admin_devi_path(devi), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce devis ?' }, class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
+<% end %>
 
-<%= link_to "Nouveau devis", new_admin_devi_path, class: "btn btn-success" %>
+<%= link_to "Nouveau devis", new_admin_devi_path, class: "btn btn-primary" %>
