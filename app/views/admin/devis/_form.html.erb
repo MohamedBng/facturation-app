@@ -11,6 +11,13 @@
     </div>
   </div>
 
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :status, "Statut", class: "form-label" %>
+      <%= form.select :status, Devi.statuses.keys.map { |statut| [statut.titleize, statut] }, { include_blank: "Séléctionner un statut" }, { class: "form-select" } %>
+    </div>
+  </div>
+
   <h3 class="text-xl mt-4">Items</h3>
   <div class="my-2" data-controller="nested-rondo" data-nested-rondo-field-class-value="item-field">
     <div data-nested-rondo-target="fieldContain">

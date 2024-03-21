@@ -4,6 +4,8 @@ class Devi < ApplicationRecord
 
   accepts_nested_attributes_for :items, reject_if: :all_blank_custom?, allow_destroy: true
 
+  enum status: { en_attente: 0, approuvé: 1 }
+
   def total_ht
     items.sum(:total_ht)
   end

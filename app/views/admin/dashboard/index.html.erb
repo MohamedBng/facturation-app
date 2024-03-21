@@ -200,13 +200,25 @@
     border-radius: 5px;
   }
 
+  .item-link {
+    text-decoration: none;
+    text-align: left;
+    color: black;
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+
+
   .user-name, .user-date, .user-status {
-    flex-basis: 33%; /* Divise l'espace également entre les éléments */
     text-align: left;
   }
 
   .user-name-title, .user-date-title, .user-status-title {
-    flex-basis: 33%; /* Divise l'espace également entre les éléments */
     text-align: left;
     font-weight: lighter;
   }
@@ -267,12 +279,10 @@
   }
 
   .client-name, .client-date, .client-status {
-    flex-basis: 33%; /* Divise l'espace également entre les éléments */
     text-align: left;
   }
 
   .client-name-title, .client-date-title, .client-status-title {
-    flex-basis: 33%; /* Divise l'espace également entre les éléments */
     text-align: left;
     font-weight: lighter;
   }
@@ -366,6 +376,10 @@
     background-color: #003c8f; /* Couleur au survol */
   }
 
+  .status-approved {
+    color: green;
+  }
+
   .parent {
     display: grid;
     grid-template-columns: repeat(2, 1fr) repeat(2, 2fr) 0fr;
@@ -455,7 +469,7 @@
 
   <a class="devis-count-container" href="<%= admin_devis_path %>">
     <div class="devis-label">Nombre de devis</div>
-    <div class="devis-number"><%= Devi.count %></div>
+    <div class="devis-number"><%= @devis.count %></div>
     <div class="devis-icon"> <%= image_tag "arrow-circle.svg", alt: "add icon", class: "img-fluid" %></div>
   </a>
   <div class="facture-list-container">
@@ -466,16 +480,13 @@
       <span class="facture-date-title">Date</span>
       <span class="facture-status-title">Status</span>
     </div>
-    <div class="facture-item">
-      <span class="facture-name">Devis 1</span>
-      <span class="facture-date">20/03/2024</span>
-      <span class="facture-status">En attente</span>
-    </div>
-    <div class="facture-item">
-      <span class="facture-name">Devis 2</span>
-      <span class="facture-date">21/03/2024</span>
-      <span class="facture-status">Approuvé</span>
-    </div>
+    <% @devis.each do |devi| %>
+      <div class="facture-item">
+        <span class="facture-name">Devi <%= devi.id %></span>
+        <span class="facture-date"><%= devi.created_at.strftime("%d/%m/%Y") %></span>
+        <span class="facture-status"><%= devi.status.titleize %></span>
+      </div>
+    <% end %>
     <a class="add-facture-btn" href="<%= new_admin_devi_path %>">
         Ajouter un devis
       <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
@@ -489,16 +500,13 @@
       <span class="devis-date-title">Date</span>
       <span class="devis-status-title">Status</span>
     </div>
-    <div class="devis-item">
-      <span class="devis-name">Devis 1</span>
-      <span class="devis-date">20/03/2024</span>
-      <span class="devis-status">En attente</span>
-    </div>
-    <div class="devis-item">
-      <span class="devis-name">Devis 2</span>
-      <span class="devis-date">21/03/2024</span>
-      <span class="devis-status">Approuvé</span>
-    </div>
+    <% @devis.each do |devi| %>
+      <a class="facture-item item-link" href="<%= admin_devi_path(devi) %>">
+        <span class="facture-name">Devi <%= devi.id %></span>
+        <span class="facture-date"><%= devi.created_at.strftime("%d/%m/%Y") %></span>
+        <span class="facture-status <%= 'status-approved' if devi.status.downcase == 'approuvé' %>"><%= devi.status.titleize %></span>
+      </a>
+    <% end %>
     <a class="add-devis-btn" href="<%= new_admin_devi_path %>">
         Ajouter un devis
       <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
@@ -511,12 +519,11 @@
     <div class="user-item">
       <span class="user-name-title">Nom</span>
     </div>
-    <div class="user-item">
-      <span class="user-name">Devis 1</span>
-    </div>
-    <div class="user-item">
-      <span class="user-name">Devis 2</span>
-    </div>
+    <% @users.each do |user| %>
+      <a class="user-item item-link" href="<%= admin_user_path(user) %>">
+        <span class="user-name"><%= "#{user.firstname} #{user.lastname}" %></span>
+      </a>
+    <% end %>
     <a class="add-user-btn" href="<%= new_admin_user_path %>">
         Ajouter un utilisateur
       <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
@@ -529,12 +536,11 @@
     <div class="client-item">
       <span class="client-name-title">Nom</span>
     </div>
-    <div class="client-item">
-      <span class="client-name">Devis 1</span>
-    </div>
-    <div class="client-item">
-      <span class="client-name">Devis 2</span>
-    </div>
+    <% @clients.each do |client| %>
+      <a class="client-item item-link" href="<%= admin_client_path(client) %>">
+        <span class="client-name"><%= "#{client.nom_complet}" %></span>
+      </a>
+    <% end %>
     <a class="add-client-btn" href="<%= new_admin_client_path %>">
         Ajouter un client
       <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
