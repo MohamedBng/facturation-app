@@ -72,6 +72,15 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "backoffice_model_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'in-v3.mailjet.com',
+    port: 587,
+    user_name: 'b90a6a4a7edb5c24ba9c5e4314da2bf2',
+    password: '359eca71f7314f33507a9324c5c69e2d',
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
   config.action_mailer.default_url_options = { host: 'dry-beach-64205-a983ed8c21d6.herokuapp.com', protocol: 'https' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
