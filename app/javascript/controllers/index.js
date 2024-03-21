@@ -8,3 +8,5 @@ import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 import NestedRondoController from "./nested_rondo_controller"
 application.register("nested-rondo", NestedRondoController)
+import ToggleFieldController from "./toggle_field_controller"
+application.register("toggle-field", ToggleFieldController)

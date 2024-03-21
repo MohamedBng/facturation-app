@@ -8,5 +8,6 @@ class Admin::DashboardController < ActionController::Base
       @devis = Devi.order(created_at: :desc).limit(5)
       @users = User.order(created_at: :desc).limit(5)
       @clients = Client.order(created_at: :desc).limit(5)
+      @factures = Facture.order(created_at: :desc).limit(2)
     end
 end

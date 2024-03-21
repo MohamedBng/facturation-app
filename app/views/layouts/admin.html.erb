@@ -204,6 +204,13 @@
             <% end %>
           </li>
         <% end %>
+        <% if policy(Facture).index? %>
+          <li class="nav-item">
+            <%= link_to admin_factures_path, class: "nav-link text-white" do %>
+              <%= image_tag "devis-icon.svg", alt: "Devis", class: "nav-icon" %><span class="link-text">Factures</span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
     <div>
@@ -253,6 +260,13 @@
               <li class="nav-item">
                 <%= link_to admin_devis_path, class: "nav-link text-white" do %>
                   <%= image_tag "devis-icon.svg", alt: "Devis", class: "nav-icon" %><span class="link-text">Devis</span>
+                <% end %>
+              </li>
+            <% end %>
+             <% if policy(Facture).index? %>
+              <li class="nav-item">
+                <%= link_to admin_factures_path, class: "nav-link text-white" do %>
+                  <%= image_tag "devis-icon.svg", alt: "Devis", class: "nav-icon" %><span class="link-text">Factures</span>
                 <% end %>
               </li>
             <% end %>

@@ -16,6 +16,12 @@ Rails.application.routes.draw do
     resources :devis do
       member do
         get 'show_pdf'
+        post :create_facture
+      end
+    end
+    resources :factures do
+      member do
+        get 'show_pdf'
       end
     end
   end

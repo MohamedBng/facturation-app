@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_21_005756) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_21_232657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,19 +36,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_21_005756) do
     t.datetime "updated_at", null: false
     t.decimal "tva"
     t.integer "status", default: 0
+    t.boolean "liquidation_tva", default: false
     t.index ["client_id"], name: "index_devis_on_client_id"
   end
 
+  create_table "factures", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.decimal "tva"
+    t.integer "status", default: 0
+    t.boolean "liquidation_tva", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_factures_on_client_id"
+  end
+
   create_table "items", force: :cascade do |t|
-    t.bigint "devi_id", null: false
+    t.bigint "devi_id"
     t.text "detail"
     t.integer "quantite"
-    t.integer "prix_unitaire_ht"
+    t.string "prix_unitaire_ht", default: "0,0"
     t.integer "total_ht"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "unite"
+    t.bigint "facture_id"
     t.index ["devi_id"], name: "index_items_on_devi_id"
+    t.index ["facture_id"], name: "index_items_on_facture_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -95,7 +108,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_21_005756) do
   end
 
   add_foreign_key "devis", "clients"
+  add_foreign_key "factures", "clients"
   add_foreign_key "items", "devis"
+  add_foreign_key "items", "factures"
   add_foreign_key "options", "categories"
   add_foreign_key "product_options", "options"
   add_foreign_key "product_options", "products"

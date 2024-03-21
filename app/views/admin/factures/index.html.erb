@@ -1,0 +1,33 @@
+<style>
+  .card {
+    color: black;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+
+  .card-header {
+    background-color: #004aad;
+    color: white;
+    border-radius: none;
+  }
+</style>
+<h1>Factures</h1>
+
+<% @factures.each do |facture| %>
+  <div class="card">
+    <h5 class="card-header">Facture n°<%= facture.id %></h5>
+    <div class="card-body"><%= facture.client.nom_complet %></h5>
+      <p class="card-text"><%= facture.created_at.strftime("%d/%m/%Y") %></p>
+      <p class="card-text"><%= facture.status.titleize %></p>
+      <p class="card-text"><%= Money.new(facture.total_ttc, "EUR").format %></p>
+      <%= link_to "Voir", admin_facture_path(facture), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Éditer", edit_admin_facture_path(facture), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Supprimer", admin_facture_path(facture), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce devis ?' }, class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to "Nouvelle facture", new_admin_facture_path, class: "btn btn-primary" %>

@@ -1,4 +1,4 @@
-class DeviPolicy < ApplicationPolicy
+class FacturePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.admin?
@@ -38,10 +38,6 @@ class DeviPolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
-  end
-
-  def create_facture?
     true
   end
 end

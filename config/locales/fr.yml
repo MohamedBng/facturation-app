@@ -1,4 +1,6 @@
 fr:
+  pdfjs-editor-free:
+    highlight-thickness-title: "Épaisseur du surlignage"
   admin:
     dashboard:
       add_new_user: "Ajouter un Nouvel Utilisateur"
@@ -34,6 +36,10 @@ fr:
         confirmation: "ne correspond pas"
         record_invalid: "La validation a échoué"
       models:
+        facture:
+          attributes:
+            client:
+              required: "est requis."
         user:
           attributes:
             email:

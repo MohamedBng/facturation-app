@@ -1,4 +1,4 @@
-<%= simple_form_for([:admin, devi], html: { id: "form-devi", class: "needs-validation", novalidate: "" }) do |form| %>
+<%= simple_form_for([:admin, facture], html: { id: "form-facture", class: "needs-validation", novalidate: "" }) do |form| %>
   <div class="form-group mt-3">
     <div class="col-sm-6">
       <%= form.input :client_id, collection: Client.all, label_method: :nom_complet, value_method: :id, include_blank: true, label: "Client", input_html: { class: "form-control" } %>
@@ -25,7 +25,7 @@
   <div class="form-group mt-3">
     <div class="col-sm-6">
       <%= form.label :status, "Statut", class: "form-label" %>
-      <%= form.select :status, Devi.statuses.keys.map { |statut| [statut.titleize, statut] }, { include_blank: "Séléctionner un statut" }, { class: "form-select" } %>
+      <%= form.select :status, Facture.statuses.keys.map { |statut| [statut.titleize, statut] }, { include_blank: "Séléctionner un statut" }, { class: "form-select" } %>
     </div>
   </div>
 

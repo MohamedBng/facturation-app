@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
-  belongs_to :devi
+  belongs_to :devi, optional: true
+  belongs_to :facture, optional: true
   monetize :prix_unitaire_ht, as: "price"
 
   before_save :calculate_total_ht

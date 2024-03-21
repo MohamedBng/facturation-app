@@ -363,7 +363,7 @@
     cursor: pointer;
     margin-top: 20px;
     text-decoration: none;
-    width: 200px;
+    width: 220px;
   }
 
   .add-facture-btn img.add-icon {
@@ -473,22 +473,22 @@
     <div class="devis-icon"> <%= image_tag "arrow-circle.svg", alt: "add icon", class: "img-fluid" %></div>
   </a>
   <div class="facture-list-container">
-    <h2>Devis récents</h2>
+    <h2>Factures récentes</h2>
     <hr class="delimiter"/>
     <div class="facture-item">
       <span class="facture-name-title">Nom</span>
       <span class="facture-date-title">Date</span>
       <span class="facture-status-title">Status</span>
     </div>
-    <% @devis.each do |devi| %>
-      <div class="facture-item">
-        <span class="facture-name">Devi <%= devi.id %></span>
-        <span class="facture-date"><%= devi.created_at.strftime("%d/%m/%Y") %></span>
-        <span class="facture-status"><%= devi.status.titleize %></span>
-      </div>
+    <% @factures.each do |facture| %>
+      <a class="facture-item item-link" href="<%= admin_facture_path(facture) %>">
+        <span class="facture-name">Facture <%= facture.id %></span>
+        <span class="facture-date"><%= facture.created_at.strftime("%d/%m/%Y") %></span>
+        <span class="facture-status <%= 'status-approved' if facture.status.downcase == 'approuvé' %>"><%= facture.status.titleize %></span>
+      </a>
     <% end %>
-    <a class="add-facture-btn" href="<%= new_admin_devi_path %>">
-        Ajouter un devis
+    <a class="add-facture-btn" href="<%= new_admin_facture_path %>">
+        Ajouter une facture
       <%= image_tag "add-icon.svg", alt: "add icon", class: "img-fluid add-icon" %>
     </a>
   </div>

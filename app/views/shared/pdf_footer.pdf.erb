@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Devis <%= @devi.id %></title>
+  <script>
+    function number_pages() {
+      var vars={};
+      var x=document.location.search.substring(1).split('&');
+      for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = decodeURIComponent(z[1]);}
+      var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+      for(var i in x) {
+        var y = document.getElementsByClassName(x[i]);
+        for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+      }
+    }
+  </script>
+  <style>
+    html body {
+      padding: 0;
+      margin: 0;
+    }
+    .footer-info {
+      text-align: center;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .signature-section {
+      text-align: center;
+    }
+    .signature-square {
+      width: 200px;
+      height: 100px;
+      border: 1px solid #000;
+      margin: 0 auto;
+    }
+
+    .page-number {
+      position: fixed;
+      bottom: -50px;
+      right: 0;
+    }
+  </style>
+</head>
+<body onload="number_pages()">
+  <div class="signature-section">
+    <p class="signature-text">Veuillez nous retourner toutes les pages de ce devis daté et signé, précédé de la mention "Bon pour accord".</p>
+    <div class="signature-square"></div>
+  </div>
+  <p class="footer-info">
+    MONSIEUR MEHDI EL HEDHILI, Entreprise Individuelle - Mehdi El Hedhili<br>
+    Micro entrepreneur enregistré sous le numéro 80917052500012.<br>
+    Exonéré de TVA en vertu des articles 151-0 et 293 B du CGI, dans la mesure où l'entreprise respecte les limites de chiffres d'affaires qui y sont fixées.<br>
+    Numéro de TVA Intracommunautaire: FR63809170525<br>
+  </p>
+  <div class="page-number">
+    Page <span class="page"></span> sur <span class="topage"></span>
+  </div>
+</body>
+</html>

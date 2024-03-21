@@ -4,6 +4,7 @@
     <li class="list-group-item"><strong>Client :</strong> <%= @devi.client.nom_complet %></li>
     <li class="list-group-item"><strong>Date :</strong> <%= @devi.created_at.to_date %></li>
     <li class="list-group-item"><strong>Statut :</strong> <%= @devi.status.titleize %></li>
+    <li class="list-group-item"><strong>Auto-liquidation TVA:</strong> <%= @devi.liquidation_tva ? "Oui" : "Non" %></li>
     <li class="list-group-item"><strong>TVA :</strong> <%= @devi.tva %> %</li>
     <li class="list-group-item"><strong>Total :</strong> <%=  Money.new(@devi.total_ht, "EUR").format %></li>
     <li class="list-group-item"><strong>Montant TTC :</strong> <%= Money.new(@devi.total_ttc, "EUR").format %></li>
@@ -11,7 +12,8 @@
   <div class="mt-3">
     <%= link_to "Éditer ce devi", edit_admin_devi_path(@devi), class: "btn btn-primary mr-2" %>
     <%= link_to "Retour aux devis", admin_devis_path, class: "btn btn-secondary" %>
-    <%= link_to 'Exporter en PDF', show_pdf_admin_devi_path(@devi, format: :pdf), class: "btn btn-info" %>
+    <%= link_to 'Exporter en PDF', show_pdf_admin_devi_path(@devi, format: :pdf), class: "btn btn-info", target: "_blank" %>
+    <%= link_to "Créer une facture à partir de ce devis", create_facture_admin_devi_path(@devi), method: :post, class: "btn btn-success", data: { confirm: "Êtes-vous sûr de vouloir créer une facture à partir de ce devis ?" } %>
     <%= link_to "Supprimer", admin_devi_path(@devi), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce client ?' }, class: "btn btn-sm btn-danger" %>
   </div>
 </div>

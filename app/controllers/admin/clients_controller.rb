@@ -32,9 +32,10 @@ class Admin::ClientsController < Admin::BaseController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to admin_client_url(@client), notice: "Client was successfully created." }
+        format.html { redirect_to admin_client_url(@client), notice: "Le client a été créé avec succès." }
         format.json { render :show, status: :created, location: @client }
       else
+        flash.now[:error] = @client.errors.full_messages.join(', ')
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
@@ -46,9 +47,10 @@ class Admin::ClientsController < Admin::BaseController
     authorize @client
     respond_to do |format|
       if @client.update(client_params)
-        format.html { redirect_to admin_client_url(@client), notice: "Client was successfully updated." }
+        format.html { redirect_to admin_client_url(@client), notice: "Le client a été mis à jour avec succès." }
         format.json { render :show, status: :ok, location: @client }
       else
+        flash.now[:error] = @client.errors.full_messages.join(', ')
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
@@ -61,7 +63,7 @@ class Admin::ClientsController < Admin::BaseController
     @client.destroy!
 
     respond_to do |format|
-      format.html { redirect_to admin_clients_url, notice: "Client was successfully destroyed." }
+      format.html { redirect_to admin_clients_url, notice: "Le client a été supprimé avec succès." }
       format.json { head :no_content }
     end
   end
