@@ -24,13 +24,20 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'your-email@example.com'
+
+  # Ajoutez ceci si ce n'est pas déjà fait
+  config.mailer = 'Devise::Mailer'
+
+  # Assurez-vous que votre domaine est correct ici
+  ActionMailer::Base.default_url_options = { host: 'dry-beach-64205-a983ed8c21d6.herokuapp.com', protocol: 'https' }
+  config.mailer_sender = 'mohamed.bengrich@outlook.fr'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
-  # Configure the parent class responsible to send e-mails.
-  # config.parent_mailer = 'ActionMailer::Base'
+  # Configure the class responsible to send e-mails.
+  config.parent_mailer = 'ActionMailer::Base'
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
