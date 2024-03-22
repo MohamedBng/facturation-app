@@ -48,9 +48,15 @@
       background-color: #f2f2f2;
     }
     .totals {
+      page-break-inside: avoid;
       margin-top: 20px;
       width: 100%;
       border-collapse: collapse;
+    }
+
+    .totals th, .totals td {
+      border: 1px solid #ddd;
+      padding: 8px;
     }
     .totals td {
       border: 1px solid #ddd;
@@ -119,6 +125,11 @@
     </table>
 
     <table class="totals">
+      <thead>
+        <tr>
+          <th>Totaux</th>
+        </tr>
+      </thead>
       <tbody>
         <tr>
           <td>TOTAL PRESTATION (HT)</td>
