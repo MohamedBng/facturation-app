@@ -11,7 +11,7 @@ class Devi < ApplicationRecord
   end
 
   def total_ttc
-    (total_ht * (1 + tva / 100)).to_i
+    (total_ht * (1 + tva.to_i / 100)).to_i
   end
 
   def all_blank_custom?(attributes)
