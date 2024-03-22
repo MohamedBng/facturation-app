@@ -5,7 +5,7 @@
     <li class="list-group-item"><strong>Date :</strong> <%= @devi.created_at.to_date %></li>
     <li class="list-group-item"><strong>Statut :</strong> <%= @devi.status.titleize %></li>
     <li class="list-group-item"><strong>Auto-liquidation TVA:</strong> <%= @devi.liquidation_tva ? "Oui" : "Non" %></li>
-    <li class="list-group-item"><strong>TVA :</strong> <%= @devi.tva %> %</li>
+    <li class="list-group-item"><strong>TVA :</strong> <%= @devi.tva.to_f %> %</li>
     <li class="list-group-item"><strong>Total :</strong> <%=  Money.new(@devi.total_ht, "EUR").format %></li>
     <li class="list-group-item"><strong>Montant TTC :</strong> <%= Money.new(@devi.total_ttc, "EUR").format %></li>
   </ul>
