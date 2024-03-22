@@ -99,11 +99,10 @@ class Admin::DevisController < Admin::BaseController
 
     respond_to do |format|
       if facture.save
-        format.html { redirect_to [:admin, facture], notice: 'Facture was successfully created from the devi.' }
+        format.html { redirect_to [:admin, facture], notice: 'La facture a été créée avec succès depuis le devis.' }
         format.json { render :show, status: :created, location: facture }
       else
-        flash.now[:error] = facture.errors.full_messages.join(', ')
-        format.html { redirect_to [:admin, @devi], alert: 'Failed to create facture from devi.' }
+        format.html { redirect_to [:admin, @devi], alert: 'La facture n\'a pas pu être créée depuis le devis.' }
         format.json { render json: facture.errors, status: :unprocessable_entity }
       end
     end
