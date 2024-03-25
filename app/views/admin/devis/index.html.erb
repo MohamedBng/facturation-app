@@ -18,8 +18,9 @@
 
 <% @devis.each do |devi| %>
   <div class="card">
-    <h5 class="card-header">Devis n°<%= devi.id %></h5>
+    <h5 class="card-header">Devis n°<%= devi.number %></h5>
     <div class="card-body"><%= devi.client.nom_complet %></h5>
+      <p class="card-text">Prestataire : <%= devi.provider.name %></p>
       <p class="card-text"><%= devi.created_at.strftime("%d/%m/%Y") %></p>
       <p class="card-text"><%= devi.status.titleize %></p>
       <p class="card-text"><%= Money.new(devi.total_ttc, "EUR").format %></p>

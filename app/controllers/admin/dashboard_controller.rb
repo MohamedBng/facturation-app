@@ -5,7 +5,7 @@ class Admin::DashboardController < ActionController::Base
 
 
     def index
-      @devis = Devi.order(created_at: :desc).limit(5)
+      @devis = Devi.order(created_at: :desc).limit(4)
       @users = User.order(created_at: :desc).limit(5)
       @clients = Client.order(created_at: :desc).limit(5)
       @factures = Facture.order(created_at: :desc).limit(2)

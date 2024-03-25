@@ -125,6 +125,6 @@ class Admin::DevisController < Admin::BaseController
 
     # Only allow a list of trusted parameters through.
     def devi_params
-      params.require(:devi).permit(:client_id, :tva, :status, :liquidation_tva, items_attributes: [:id, :detail, :quantite, :unite, :price, :prix_unitaire_ht, :_destroy])
+      params.require(:devi).permit(:client_id, :provider_id, :tva, :status, :liquidation_tva, :number, items_attributes: [:id, :detail, :quantite, :unite, :price, :prix_unitaire_ht, :_destroy])
     end
 end

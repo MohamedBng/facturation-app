@@ -2,6 +2,8 @@
   <h2 class="mb-4">Détails du Devis</h2>
   <ul class="list-group">
     <li class="list-group-item"><strong>Client :</strong> <%= @devi.client.nom_complet %></li>
+    <li class="list-group-item"><strong>Prestataire :</strong> <%= @devi.provider.name %></li>
+    <li class="list-group-item"><strong>Adresse :</strong> <%= @devi.client.adresse %></li>
     <li class="list-group-item"><strong>Date :</strong> <%= @devi.created_at.to_date %></li>
     <li class="list-group-item"><strong>Statut :</strong> <%= @devi.status.titleize %></li>
     <li class="list-group-item"><strong>Auto-liquidation TVA:</strong> <%= @devi.liquidation_tva ? "Oui" : "Non" %></li>

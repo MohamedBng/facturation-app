@@ -219,6 +219,13 @@
             <% end %>
           </li>
         <% end %>
+        <% if policy(Provider).index? %>
+          <li class="nav-item">
+            <%= link_to admin_providers_path, class: "nav-link text-white" do %>
+              <%= image_tag "client-icon.svg", alt: "Providers", class: "nav-icon" %><span class="link-text">Providers</span>
+            <% end %>
+          </li>
+        <% end %>
         <% if policy(Client).index? %>
           <li class="nav-item">
             <%= link_to admin_clients_path, class: "nav-link text-white" do %>
@@ -275,6 +282,13 @@
               <li class="nav-item">
                 <%= link_to admin_users_path, class: "nav-link text-white" do %>
                   <%= image_tag "users-icon.svg", alt: "Utilisateurs", class: "nav-icon" %><span class="link-text">Utilisateurs</span>
+                <% end %>
+              </li>
+            <% end %>
+            <% if policy(Provider).index? %>
+              <li class="nav-item">
+                <%= link_to admin_providers_path, class: "nav-link text-white" do %>
+                  <%= image_tag "client-icon.svg", alt: "Providers", class: "nav-icon" %><span class="link-text">Providers</span>
                 <% end %>
               </li>
             <% end %>

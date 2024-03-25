@@ -1,0 +1,56 @@
+<%= form_for([:admin, @provider], local: true, html: { id: "form-provider", class: "needs-validation", novalidate: "" }) do |form| %>
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :address, class: "form-label" %>
+      <%= form.text_field :address, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :city, class: "form-label" %>
+      <%= form.text_field :city, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :postal_code, class: "form-label" %>
+      <%= form.text_field :postal_code, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :num_siret, class: "form-label" %>
+      <%= form.text_field :num_siret, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :starting_quotation_number, class: "form-label" %>
+      <%= form.number_field :starting_quotation_number, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.label :logo, class: "form-label" %>
+      <%= form.file_field :logo, direct_upload: true, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= form.submit "Envoyer", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_22_144505) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_24_232327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,7 +31,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_144505) do
     t.decimal "tva", default: "0.0"
     t.integer "status", default: 0
     t.boolean "liquidation_tva", default: false
+    t.bigint "provider_id", null: false
+    t.string "number"
     t.index ["client_id"], name: "index_devis_on_client_id"
+    t.index ["provider_id"], name: "index_devis_on_provider_id"
   end
 
   create_table "factures", force: :cascade do |t|
@@ -58,6 +61,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_144505) do
     t.index ["facture_id"], name: "index_items_on_facture_id"
   end
 
+  create_table "providers", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "city"
+    t.string "postal_code"
+    t.string "num_siret"
+    t.jsonb "logo_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "starting_quotation_number", default: 1
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -74,6 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_144505) do
   end
 
   add_foreign_key "devis", "clients"
+  add_foreign_key "devis", "providers"
   add_foreign_key "factures", "clients"
   add_foreign_key "items", "devis"
   add_foreign_key "items", "factures"

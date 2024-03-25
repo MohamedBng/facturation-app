@@ -50,10 +50,8 @@
     <div class="signature-square"></div>
   </div>
   <p class="footer-info">
-    MONSIEUR MEHDI EL HEDHILI, Entreprise Individuelle - Mehdi El Hedhili<br>
-    Micro entrepreneur enregistré sous le numéro 80917052500012.<br>
-    Exonéré de TVA en vertu des articles 151-0 et 293 B du CGI, dans la mesure où l'entreprise respecte les limites de chiffres d'affaires qui y sont fixées.<br>
-    Numéro de TVA Intracommunautaire: FR63809170525<br>
+    <%= @devi.provider.name %> - <%= @devi.provider.address %>, <%= @devi.provider.postal_code %> <%= @devi.provider.city %><br>
+    SIRET: <%= @devi.provider.num_siret %><br>
   </p>
   <div class="page-number">
     Page <span class="page"></span> sur <span class="topage"></span>

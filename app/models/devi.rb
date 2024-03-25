@@ -1,5 +1,6 @@
 class Devi < ApplicationRecord
   belongs_to :client
+  belongs_to :provider
   has_many :items, dependent: :destroy
 
   accepts_nested_attributes_for :items, reject_if: :all_blank_custom?, allow_destroy: true

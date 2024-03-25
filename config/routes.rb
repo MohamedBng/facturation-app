@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboard#index'
     resources :users
     resources :clients
+    resources :providers
+    get 'providers/:id/next_devis_number', to: 'providers#next_devis_number'
     resources :devis do
       member do
         get 'show_pdf'

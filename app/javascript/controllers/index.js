@@ -10,3 +10,5 @@ import NestedRondoController from "./nested_rondo_controller"
 application.register("nested-rondo", NestedRondoController)
 import ToggleFieldController from "./toggle_field_controller"
 application.register("toggle-field", ToggleFieldController)
+import ProviderSelectionController from "./provider_selection_controller"
+application.register("provider-selection", ProviderSelectionController)

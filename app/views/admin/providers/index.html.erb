@@ -1,0 +1,31 @@
+<style>
+  .card {
+    color: black;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 10px;
+  }
+
+  .card-header {
+    background-color: #004aad;
+    color: white;
+    border-radius: none;
+  }
+</style>
+
+<h1>Prestataire</h1>
+<% @providers.each do |provider| %>
+  <div class="card">
+    <h5 class="card-header"><%= provider.name%></h5>
+    <div class="card-body">Adresse: <%= "#{provider.address}, #{provider.city}" %></h5>
+      <p class="card-text">Numéro de siret: <%= provider.num_siret %></p>
+      <%= link_to "Voir", admin_provider_path(provider), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Éditer", edit_admin_provider_path(provider), class: "btn btn-sm btn-primary" %>
+      <%= link_to "Supprimer", admin_provider_path(provider), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce provider ?' }, class: "btn btn-sm btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to "Ajouter un provider", new_admin_provider_path, class: "btn btn-primary" %>

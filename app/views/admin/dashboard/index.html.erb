@@ -469,7 +469,7 @@
 
   <a class="devis-count-container" href="<%= admin_devis_path %>">
     <div class="devis-label">Nombre de devis</div>
-    <div class="devis-number"><%= @devis.count %></div>
+    <div class="devis-number"><%= Devi.count %></div>
     <div class="devis-icon"> <%= image_tag "arrow-circle.svg", alt: "add icon", class: "img-fluid" %></div>
   </a>
   <div class="facture-list-container">
@@ -502,7 +502,7 @@
     </div>
     <% @devis.each do |devi| %>
       <a class="facture-item item-link" href="<%= admin_devi_path(devi) %>">
-        <span class="facture-name">Devi <%= devi.id %></span>
+        <span class="facture-name">Devi <%= devi.number %> - <%= devi.client.nom_complet %></span>
         <span class="facture-date"><%= devi.created_at.strftime("%d/%m/%Y") %></span>
         <span class="facture-status <%= 'status-approved' if devi.status.downcase == 'approuvé' %>"><%= devi.status.titleize %></span>
       </a>
