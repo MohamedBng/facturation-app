@@ -1,4 +1,10 @@
 fr:
+  simple_payment_methods:
+    cash: "Espèces"
+    credit_card: "Carte de crédit"
+    bank_transfer: "Virement bancaire"
+    check: "Chèque"
+    paypal: "PayPal"
   pdfjs-editor-free:
     highlight-thickness-title: "Épaisseur du surlignage"
   admin:
@@ -25,6 +31,7 @@ fr:
     attributes:
       user:
         email: "E-mail"
+        phone_number: "Numéro de téléphone"
         firstname: "Prénom"
         lastname: "Nom"
         password: "Mot de passe"
@@ -57,6 +64,10 @@ fr:
     abbr_day_names: [Dim, Lun, Mar, Mer, Jeu, Ven, Sam]
     month_names: [nil, Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Septembre, Octobre, Novembre, Décembre]
     abbr_month_names: [nil, Jan, Fév, Mar, Avr, Mai, Jun, Jul, Aoû, Sep, Oct, Nov, Déc]
+    order:
+      - :year
+      - :month
+      - :day
     formats:
       default: "%d/%m/%Y"
       short: "%d %b"

@@ -6,8 +6,11 @@
     <li class="list-group-item"><strong>Adresse :</strong> <%= @devi.client.adresse %></li>
     <li class="list-group-item"><strong>Date :</strong> <%= @devi.created_at.to_date %></li>
     <li class="list-group-item"><strong>Statut :</strong> <%= @devi.status.titleize %></li>
-    <li class="list-group-item"><strong>Auto-liquidation TVA:</strong> <%= @devi.liquidation_tva ? "Oui" : "Non" %></li>
-    <li class="list-group-item"><strong>TVA :</strong> <%= @devi.tva.to_f %> %</li>
+    <% if @devi.vat_application_type == 'taux_uniforme' %>
+         <li class="list-group-item"><strong>TVA :</strong> <%= @devi.tva.to_f %> %</li>
+      <% else %>
+        <li class="list-group-item"><strong>Statut de TVA :</strong> <%= @devi.vat_application_type.humanize %></li>
+      <% end %>
     <li class="list-group-item"><strong>Total :</strong> <%=  Money.new(@devi.total_ht, "EUR").format %></li>
     <li class="list-group-item"><strong>Montant TTC :</strong> <%= Money.new(@devi.total_ttc, "EUR").format %></li>
   </ul>

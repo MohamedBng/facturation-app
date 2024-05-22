@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Devis <%= @devi.id %></title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      background-color: <%= @devi.provider.background_color %>; /* Couleur de fond personnalisée */
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte personnalisée */
+    }
+    h3 {
+      font-family: 'Arial', sans-serif;
+      font-size: 1.2em;
+      color: <%= @devi.provider.primary_color %>; /* Couleur principale */
+      padding-bottom: 10px;
+      margin-top: 40px;
+      border-bottom: 2px solid <%= @devi.provider.primary_color %>; /* Couleur secondaire pour la bordure */
+    }
+    p {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte personnalisée */
+      font-weight: bold;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      position: relative;
+    }
+    .client-info {
+      top: 100px;
+      text-align: right;
+      position: absolute;
+      right: 0;
+    }
+    .container {
+      margin-top: 250px;
+      margin-bottom: 0px;
+      position: relative; /* Ajout de relative pour positionner correctement la section des méthodes de paiement */
+    }
+    table {
+      margin-top: 42px;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid <%= @devi.provider.secondary_color %>; /* Couleur secondaire */
+    }
+    th {
+      background-color: <%= @devi.provider.primary_color %>; /* Couleur principale */
+      color: white;
+    }
+    tbody tr:nth-child(even) {
+      background-color: <%= @devi.provider.background_color %>; /* Couleur de fond personnalisée */
+    }
+    .totals {
+      width: 45%;
+      position: absolute;
+      right: 0;
+    }
+
+    .totals table {
+      width: 20%;
+      margin-top: 0px;
+    }
+    .totals td {
+      border: 1px solid <%= @devi.provider.secondary_color %>; /* Couleur secondaire */
+      padding: 8px;
+      font-weight: bold;
+      background-color: <%= @devi.provider.background_color %>; /* Couleur de fond personnalisée */
+      text-align: right; /* Alignement du texte à droite */
+    }
+
+    .devis-info {
+      top: 150px;
+      text-align: left;
+      position: absolute;
+      left: 0;
+    }
+    .devis-info p {
+      margin: 0;
+      padding: 2px 0;
+      font-weight: bold;
+    }
+    .description-section {
+      margin-top: 20px;
+      margin-left: 20px;
+      font-size: 0.8rem;
+      background-color: <%= @devi.provider.secondary_color %>; /* Couleur de fond personnalisée */
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .description-section h3 {
+      color: <%= @devi.provider.primary_color %>; /* Couleur principale */
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 2px;
+      margin-top: 0px;
+    }
+    .description-section p {
+      line-height: 1.6;
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte personnalisée */
+    }
+    .payment-methods {
+      position: absolute;
+      margin-top: 40px;
+      background-color: <%= @devi.provider.secondary_color %>; /* Couleur de fond secondaire */
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte */
+      padding: 10px;
+      border-radius: 5px;
+      width: 30%;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .payment-methods h3 {
+      font-size: 1em;
+      color: <%= @devi.provider.primary_color %>; /* Couleur principale */
+      margin-bottom: 5px;
+    }
+    .payment-methods ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .payment-methods li {
+      font-size: 0.8em;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="devis-info">
+      <p><strong>Numéro de devis:</strong> <%= @devi.number %></p>
+      <p><strong>Date du devis:</strong> <%= @devi.date_of_creation.strftime("%d/%m/%Y") %></p>
+      <p><strong>Date de validité du devis:</strong> <%= @devi.date_of_validity.strftime("%d/%m/%Y") %></p>
+      <p><strong>Date de début du service:</strong> <%= @devi.start_date_of_service.strftime("%d/%m/%Y") %></p>
+      <% if @devi.estimated_duration.present? %>
+        <p><strong>Durée du service :</strong> <%= @devi.estimated_duration %> <%= @devi.duration_unit %></p>
+      <% end %>
+      <% if @devi.intervention_location.present? %>
+        <p><strong>Lieu d'intervention:</strong> <%= @devi.intervention_location %></p>
+      <% end %>
+    </div>
+    <div class="client-info">
+      <h3>ADRESSÉ À:</h3>
+      <p>
+        <%= @devi.client.nom_complet %><br>
+        <%= @devi.client.adresse %><br>
+        <%= @devi.client.code_postal %> <%= @devi.client.ville %><br>
+        <% if @devi.client.num_siret.present? %>
+          Numéro SIRET: <%= @devi.client.num_siret %><br>
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <div class="container">
+    <% if @devi.description?%>
+      <div class="description-section">
+        <h3>Description:</h3>
+        <p><%= @devi.description %></p>
+      </div>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Détail</th>
+          <th>Quantité</th>
+          <th>Unité</th>
+          <th>Prix unitaire (HT)</th>
+          <th>TOTAL (HT)</th>
+          <% if @devi.vat_application_type == 'taux_variable' %>
+            <th>TVA</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @devi.items.each do |item| %>
+          <tr>
+            <td><%= item.detail %></td>
+            <td><%= item.quantite %></td>
+            <td><%= item.unite %></td>
+            <td><%= item.price&.format %></td>
+            <td><%= Money.new(item.total_ht, "EUR").format %></td>
+            <% if @devi.vat_application_type == 'taux_variable' %>
+              <td>
+                <% if item.exempt_tva? %>
+                  Exonéré de TVA
+                <% else %>
+                  <%= item.tva %>%
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div style="border: 2px solid blue; display: flex; justify-content: space-between; flex-direction: row; position: relative;">
+      <div class="payment-methods" style="border: 2px solid yellow; margin-right: 0;">
+        <% if @devi.payment_terms?%>
+        <h3>Conditions de paiement :</h3>
+        <p><%= @devi.payment_terms %></p>
+        <% end %>
+        <% if @devi.payment_methods.present? %>
+        <h3>Méthodes de paiement autorisées :</h3>
+        <ul>
+          <% @devi.payment_methods.each do |payment_method| %>
+            <li><%= I18n.t("simple_payment_methods.#{payment_method}") %></li>
+          <% end %>
+        </ul>
+        <% end %>
+      </div>
+      <table class="totals" style="border: 2px solid red; margin-left: 0; margin-right: 0;">
+        <tbody style="border: 2px solid red; margin-left: 0; margin-right: 0;">
+          <tr>
+            <th>TOTAL PRESTATION (HT)</th>
+            <td style="text-align: right;"><%= Money.new(@devi.items.sum(:total_ht), "EUR").format %></td>
+          </tr>
+          <% if @devi.vat_application_type == 'taux_variable' %>
+            <% @devi.items.group_by(&:tva).each do |tva_rate, items| %>
+              <% unless tva_rate == 0 %>
+                <tr>
+                  <th>TVA (<%= tva_rate %>%)</th>
+                  <td style="text-align: right;"><%= Money.new(items.sum { |item| item.total_ht * tva_rate.to_f / 100 }, "EUR").format %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% else %>
+            <% if @devi.tva > 0 %>
+              <tr>
+                <th>TVA (<%= @devi.tva %>%)</th>
+                <td style="text-align:right;">
+                  <%= Money.new((@devi.total_ht * @devi.tva / 100), "EUR").format %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+          <% if @devi.global_discount_type == "price" %>
+            <tr>
+              <th>REMISE</th>
+              <td style="text-align: right;">- <%= Money.new(@devi.global_discount * 100, "EUR").format %></td>
+            </tr>
+          <% elsif @devi.global_discount_type == "percent" %>
+            <tr>
+              <th>REMISE (<%= @devi.global_discount %>%)</th>
+              <td style="text-align: right;">- <%= Money.new(@devi.global_discount_percent_value, "EUR").format %></td>
+            </tr>
+          <% end %>
+          <% if @devi.deposit %>
+            <tr>
+              <th>ACOMPTE</th>
+              <td style="text-align: right;">- <%= Money.new(@devi.deposit, "EUR").format %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <th>NET A PAYER</th>
+            <td style="text-align: right;"><%= Money.new(@devi.total_net, "EUR").format %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <% if @devi.vat_application_type == 'auto_liquidation_commerce_intra_communautaire_prestation_de_service' %>
+      <p><strong>Autoliquidation, article 283 du Code Général des Impôts</strong></p>
+    <% elsif @devi.vat_application_type == 'auto_liquidation_commerce_intra_communautaire_vente_de_biens' %>
+      <p><strong>Autoliquidation, article 262 ter I du Code Général des Impôts</strong></p>
+    <% elsif @devi.vat_application_type == 'auto_liquidation_en_sous_traitance' %>
+      <p><strong>Autoliquidation</strong></p>
+    <% elsif @devi.vat_application_type == 'non_assujeti_franchise_en_base' %>
+      <p><strong>Franchise en base de TVA, article 293 B du Code Général des Impôts</strong></p>
+    <% elsif @devi.vat_application_type == 'exonerations_ventes_hors_union_européenne' %>
+      <p><strong>TVA non applicable, art 262-1 du Code Général des Impôts</strong></p>
+    <% end %>
+  </div>
+</body>
+</html>

@@ -3,9 +3,12 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
+Dir[Rails.root.join('spec/system/support/**/*.rb')].each { |f| require f }
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
-require 'shoulda/matchers'
+require 'capybara/rspec'
+require 'selenium-webdriver'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -37,6 +40,25 @@ RSpec.configure do |config|
   ]
   config.include FactoryBot::Syntax::Methods
 
+  config.include SystemTestHelper, type: :system
+
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
+  config.before(:each, type: :system) do
+    # Définir le pilote Selenium pour Chrome headless
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('headless')
+    options.add_argument('disable-gpu')
+    options.add_argument('no-sandbox')
+    options.add_argument('disable-dev-shm-usage')
+
+    Capybara.register_driver :headless_chrome do |app|
+      Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    end
+
+    # Utilisez le pilote défini pour les tests système
+    driven_by :headless_chrome
+  end
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -65,10 +87,3 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
-

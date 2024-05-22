@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Logo et Informations du Prestataire</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      background-color: <%= @devi.provider.background_color %>; /* Couleur de fond personnalisée */
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte personnalisée */
+      position: relative; /* Ajoute un contexte de positionnement pour les éléments absolus */
+    }
+    .logo {
+      width: 70px;
+      height: auto;
+      margin-bottom: 10px;
+      position: absolute;
+      left: 20px; /* Espacement depuis le bord gauche */
+      top: 5px; /* Espacement depuis le bord supérieur */
+    }
+    .company-info {
+      width: 40%;
+      position: absolute;
+      top: 20px;
+      text-align: right;
+      right: 0;
+    }
+    h3 {
+      font-family: 'Arial', sans-serif;
+      font-size: 1.2em;
+      color: <%= @devi.provider.primary_color %>; /* Couleur principale */
+      padding-bottom: 10px;
+      margin-top: 0; /* Ajustez selon le besoin pour aligner verticalement avec le logo */
+      border-bottom: 2px solid <%= @devi.provider.primary_color %>;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: <%= @devi.provider.text_color %>; /* Couleur du texte personnalisée */
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <% if @devi.provider.logo %>
+    <% image_data = Base64.encode64(@devi.provider.logo.download.read) %>
+    <% image_base64 = "data:image/jpg;base64,#{image_data}" %>
+    <img src="<%= image_base64 %>" alt="Logo" class="logo">
+  <% end %>
+  <div class="company-info">
+    <h3>AU NOM ET POUR LE COMPTE DE:</h3>
+    <p>
+      <%= @devi.provider.name %><br>
+      <%= @devi.provider.address %><br>
+      <%= @devi.provider.postal_code %> <%= @devi.provider.city %><br>
+      <% if @devi.provider.num_siret.present? %>
+        Numéro SIRET: <%= @devi.provider.num_siret %><br>
+      <% end %>
+    </p>
+  </div>
+</body>
+</html>

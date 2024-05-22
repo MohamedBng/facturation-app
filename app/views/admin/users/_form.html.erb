@@ -1,13 +1,6 @@
 <%= form_for([:admin, @user], html: { id: "form-container", class: "needs-validation", novalidate: "" }) do |f| %>
   <div class="form-group mt-3">
     <div class="col-sm-6">
-      <%= f.label :email, t('admin.users.form.email'), class: "form-label" %>
-      <%= f.email_field :email, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group mt-3">
-    <div class="col-sm-6">
       <%= f.label :lastname, t('admin.users.form.lastname'), class: "form-label" %>
       <%= f.text_field :lastname, class: "form-control" %>
     </div>
@@ -17,6 +10,20 @@
     <div class="col-sm-6">
       <%= f.label :firstname, t('admin.users.form.firstname'), class: "form-label" %>
       <%= f.text_field :firstname, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= f.label :email, t('admin.users.form.email'), class: "form-label" %>
+      <%= f.email_field :email, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <div class="col-sm-6">
+      <%= f.label :phone_number, t('admin.users.form.phone_number'), class: "form-label" %>
+      <%= f.text_field :phone_number, class: "form-control" %>
     </div>
   </div>
 

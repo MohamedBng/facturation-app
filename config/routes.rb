@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :clients
     resources :providers
     get 'providers/:id/next_devis_number', to: 'providers#next_devis_number'
+    get 'providers/:id/next_facture_number', to: 'providers#next_facture_number'
     resources :devis do
       member do
         get 'show_pdf'

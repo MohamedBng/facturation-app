@@ -4,7 +4,7 @@ class DeviPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.where(id: user.id)
+        scope.where(user_id: user.id)
       end
     end
   end
@@ -14,7 +14,7 @@ class DeviPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    record.user_id == user.id || user.admin?
   end
 
   def create?
@@ -26,11 +26,11 @@ class DeviPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    record.user_id == user.id || user.admin?
   end
 
   def show_pdf?
-    true
+    show?
   end
 
   def edit?
@@ -38,10 +38,10 @@ class DeviPolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    record.user_id == user.id || user.admin?
   end
 
   def create_facture?
-    true
+    create?
   end
 end

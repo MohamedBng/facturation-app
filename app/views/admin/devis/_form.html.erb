@@ -1,43 +1,158 @@
-<%= simple_form_for([:admin, devi], html: { id: "form-devi", class: "needs-validation", novalidate: "" }) do |form| %>
-  <div data-controller="provider-selection">
-    <div class="form-group mt-3">
-      <div class="col-sm-6">
-       <%= form.input :provider_id, collection: Provider.all, label_method: :name, value_method: :id, include_blank: true, label: "Prestataire", input_html: { class: "form-control", data: { action: "provider-selection#toggleFields provider-selection#updateNumberField", provider_selection_target: "providerField" } } %>
+<%= simple_form_for([:admin, devi], html: { id: "form-devi", class: "needs-validation", novalidate: "", data: { controller: "vat-application" } }) do |form| %>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3 class="mt-4 mb-4">Informations Principales du Devis</h3>
       </div>
     </div>
-
-    <div class="form-group mt-3" style="display: none;" data-provider-selection-target="clientAndNumberField">
-      <div class="col-sm-6">
-        <%= form.input :client_id, collection: Client.all, label_method: :nom_complet, value_method: :id, include_blank: true, label: "Client", input_html: { class: "form-control" } %>
+    <div class="form-group mt-6 w-100">
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <%= form.input :provider_id, collection: current_user.providers, label_method: :name, value_method: :id, include_blank: true, label: "Prestataire (requis)", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <%= form.input :client_id, collection: current_user.clients, label_method: :nom_complet, value_method: :id, include_blank: true, label: "Client (requis)", input_html: { class: "form-control" } %>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <%= form.input :number, label: "Numéro de devis", input_html: { data: { provider_selection_target: "numberField" } } %>
-      </div>
-    </div>
-  </div>
-
-
-  <div data-controller="toggle-field">
-    <div class="form-group mt-3">
-      <div class="col-sm-6">
-        <%= form.label :liquidation_tva, "Autoliquidation de la TVA", class: "form-label" %>
-        <%= form.check_box :liquidation_tva, class: "form-check-input", data: { toggle_field_target: "checkbox", action: "change->toggle-field#toggleTVA" } %>
-      </div>
-    </div>
-    <div class="form-group mt-3" data-toggle-field-target="tva">
-      <div class="col-sm-6">
-        <%= form.input :tva, label: "TVA (%)", input_html: { class: "form-control", min: 0, step: "any" } %>
+      <div class="row mt-3">
+        <div class="col-sm-12 col-md-6">
+          <%= form.input :date_of_validity, as: :date, label: "Date de validité (requis)", input_html: { class: "form-control"}, required: false %>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <%= form.input :start_date_of_service, as: :date, label: "Date de début du service (requis)", input_html: { class: "form-control"}, required: false %>
+        </div>
       </div>
     </div>
   </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="mt-4 mb-4 text-center">Détails du Service</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mt-3">
+          <%= form.label :intervention_location, "Lieu d'intervention (optionnel)", class: "form-label" %>
+          <%= form.text_field :intervention_location, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group mt-3" data-controller="toggle-unit">
+          <%= form.label :estimated_duration, "Durée du service (optionnel)", class: "form-label"%>
+          <span class="ml-2 text-muted" style="align-self: center;">(Spécifiez l'unité pour utiliser ce champ.)</span>
+          <div class="input-group">
+            <%= form.text_field :estimated_duration, step: 0.01, class: "form-control", style: "margin-right: 10px", data: { target: "toggle-unit.input" } %>
+            <%= form.hidden_field :duration_unit, data: { target: "toggle-unit.type" } %>
+            <div class="input-group-append ">
+              <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.duration_unit == 'heures' %>" data-action="click->toggle-unit#selectType" data-type="heures" data-discount-unit="heures" data-toggle-unit-target="toggle">Heures</button>
+              <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.duration_unit == 'jours' %>" data-action="click->toggle-unit#selectType" data-type="jours" data-discount-unit="jours" data-toggle-unit-target="toggle">Jours</button>
+              <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.duration_unit == 'mois' %>" data-action="click->toggle-unit#selectType" data-type="mois" data-discount-unit="mois" data-toggle-unit-target="toggle">Mois</button>
+              <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.duration_unit == 'années' %>" data-action="click->toggle-unit#selectType" data-type="années" data-discount-unit="années" data-toggle-unit-target="toggle">Années</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group mt-3">
+          <%= form.label :description, "Description (optionnel)" %>
+          <%= form.rich_text_area :description, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="mt-4 mb-4 text-center">Paramètres Financiers</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mt-3">
+        <%= form.label :vat_application_type, "Type d'application de la TVA (requis)", class: "form-label" %>
+        <%= form.select :vat_application_type, Devi.vat_application_types.keys.map { |type| [type.titleize, type] }, { include_blank: "Sélectionner un type" }, { class: "form-select", data: { vat_application_target: "select", action: "change->vat-application#toggleVatField" } } %>
+      </div>
+      <div class="form-group mt-3" data-vat-application-target="vatField" style="display: none;">
+        <%= form.input :tva, label: "TVA (%) (requis)", input_html: { class: "form-control", min: 0, step: "any" } %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mt-3" data-controller="toggle-unit">
+        <%= form.label :global_discount, "Remise Global (optionnel)", class: "form-label" %>
+        <span class="ml-2 text-muted">(Spécifiez l'unité pour utiliser ce champ.)</span>
+        <div class="input-group">
+          <%= form.text_field :global_discount, step: 0.01, class: "form-control", style: "margin-right: 10px", data: { target: "toggle-unit.input" } %>
+          <%= form.hidden_field :global_discount_type, data: { target: "toggle-unit.type" } %>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.global_discount_type == 'price' %>" data-action="click->toggle-unit#selectType" data-type="price" data-discount-unit="price" data-toggle-unit-target="toggle">€</button>
+            <button type="button" class="btn btn-outline-secondary <%= 'active' if devi.global_discount_type == 'percent' %>" data-action="click->toggle-unit#selectType" data-type="percent" data-discount-unit="percent" data-toggle-unit-target="toggle">%</button>
+          </div>
+        </div>
+      </div>
+       <div class="form-group mt-3">
+        <%= form.label :total_deposit, "Acompte (€) (optionnel)", class: "form-label" %>
+        <%= form.text_field :total_deposit, step: 0.01, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="mt-4 mb-4 text-center">Options de Paiement et Conditions</h3>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mt-3">
+        <%= form.label :payment_methods, "Méthodes de paiement(s) (optionnel) :", class: "form-label" %>
+        <div id="payment-methods-container" class="card">
+          <div class="card-body">
+            <%= form.collection_check_boxes :payment_methods, Devi.simple_payment_methods.keys.map { |k| [k, I18n.t("simple_payment_methods.#{k}")] }, :first, :second, item_wrapper_tag: :div, checked: @devi.payment_methods.map(&:to_s) do |b| %>
+              <div class="form-check form-check-inline" data-controller="interactive-button">
+                <%= b.check_box(class: "d-none", id: "payment_method_#{b.text.parameterize}") %>
+                <%= b.label(class: "btn btn-outline-primary", for: "payment_method_#{b.text.parameterize}", data: { action: "click->interactive-button#toggle" }) do %>
+                  <%= b.text %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
-  <div class="form-group mt-3">
-    <div class="col-sm-6">
-      <%= form.label :status, "Statut", class: "form-label" %>
-      <%= form.select :status, Devi.statuses.keys.map { |statut| [statut.titleize, statut] }, { include_blank: "Séléctionner un statut" }, { class: "form-select" } %>
+
+
+
+
+
+    <div class="col-md-6">
+      <div class="form-group mt-3">
+        <%= form.label :payment_terms, "Conditions de paiements (optionnel)" %>
+        <%= form.rich_text_area :payment_terms, class: "form-control", style: "height: 205px;" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="mt-4 mb-4 text-center">Statut et Gestion des Articles</h3>
+    </div>
+    <div class="col-12">
+      <div class="form-group mt-3">
+        <%= form.label :status, "Statut (requis)", class: "form-label" %>
+        <%= form.select :status, Devi.statuses.keys.map { |statut| [statut.titleize, statut] }, { include_blank: "Sélectionner un statut" }, { class: "form-select", default: "En attente" } %>
+      </div>
     </div>
   </div>
 
@@ -54,8 +169,9 @@
   </div>
 
   <div class="form-group mt-3">
-    <div class="col-sm-6">
+    <div class="col-12">
       <%= form.button :submit, "Envoyer", class: "btn btn-primary" %>
     </div>
   </div>
+</div>
 <% end %>

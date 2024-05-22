@@ -14,7 +14,7 @@ class ProviderPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    record.user_id == user.id || user.admin?
   end
 
   def create?
@@ -26,7 +26,7 @@ class ProviderPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    record.user_id == user.id || user.admin?
   end
 
   def edit?
@@ -34,6 +34,6 @@ class ProviderPolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    record.user_id == user.id || user.admin?
   end
 end

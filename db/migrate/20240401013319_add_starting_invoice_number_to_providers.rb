@@ -1,5 +1,5 @@
 class AddStartingInvoiceNumberToProviders < ActiveRecord::Migration[7.1]
   def change
-    add_column :providers, :starting_quotation_number, :integer, default: 1
+    add_column :providers, :starting_invoice_number, :integer, default: 1
   end
 end

@@ -1,7 +1,18 @@
 <%= simple_form_for([:admin, facture], html: { id: "form-facture", class: "needs-validation", novalidate: "" }) do |form| %>
-  <div class="form-group mt-3">
-    <div class="col-sm-6">
-      <%= form.input :client_id, collection: Client.all, label_method: :nom_complet, value_method: :id, include_blank: true, label: "Client", input_html: { class: "form-control" } %>
+  <div data-controller="provider-selection" data-type="facture" data-provider-selection-mode-value="<%= facture.new_record? ? 'new' : 'edit' %>">
+    <div class="form-group mt-3">
+      <div class="col-sm-6">
+       <%= form.input :provider_id, collection: current_user.providers, label_method: :name, value_method: :id, include_blank: true, label: "Prestataire", input_html: { class: "form-control", data: { action: "provider-selection#toggleFields provider-selection#updateNumberField", provider_selection_target: "providerField" } } %>
+      </div>
+    </div>
+
+    <div class="form-group mt-3" style="display: none;" data-provider-selection-target="clientAndNumberField">
+      <div class="col-sm-6">
+        <%= form.input :client_id, collection: current_user.clients, label_method: :nom_complet, value_method: :id, include_blank: true, label: "Client", input_html: { class: "form-control" } %>
+      </div>
+      <div class="col-sm-6">
+        <%= form.input :number, label: "Numéro de factures", input_html: { data: { provider_selection_target: "numberField" } } %>
+      </div>
     </div>
   </div>
 

@@ -5,54 +5,78 @@
   <title>Devis <%= @devi.id %></title>
   <script>
     function number_pages() {
-      var vars={};
-      var x=document.location.search.substring(1).split('&');
-      for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = decodeURIComponent(z[1]);}
-      var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
-      for(var i in x) {
+      var vars = {};
+      var x = document.location.search.substring(1).split('&');
+      for (var i in x) {
+        var z = x[i].split('=', 2);
+        vars[z[0]] = decodeURIComponent(z[1]);
+      }
+      var x = ['frompage', 'topage', 'page', 'webpage', 'section', 'subsection', 'subsubsection'];
+      for (var i in x) {
         var y = document.getElementsByClassName(x[i]);
-        for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+        for (var j = 0; j < y.length; ++j) y[j].textContent = vars[x[i]];
       }
     }
   </script>
   <style>
-    html body {
-      padding: 0;
+    body {
+      font-family: 'Arial', sans-serif;
       margin: 0;
+      padding: 0;
+      font-size: 12px;
+      color: @devi.provider.text_color;
+      background-color: <%= @devi.provider.background_color %>;
     }
     .footer-info {
       text-align: center;
-      padding-bottom: 0;
-      margin-bottom: 0;
+      padding: 10px 10px 0 10px;
+      font-size: 0.85em;
+      color: #666;
+      border-top: 1px solid #ccc;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: <%= @devi.provider.background_color %>;
     }
-
     .signature-section {
       text-align: center;
+      padding: 20px;
+      background-color: <%= @devi.provider.background_color %>;
+      margin-top: 10px;
+      margin-bottom: 50px;
     }
     .signature-square {
-      width: 200px;
-      height: 100px;
-      border: 1px solid #000;
-      margin: 0 auto;
+      width: 250px;
+      height: 80px;
+      border: 1px solid #ccc;
+      margin: 10px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9em;
+      color: #bbb;
     }
-
     .page-number {
-      white-space: nowrap;
+      text-align: right;
+      font-size: 0.75em;
       position: fixed;
-      bottom: -50px;
-      right: 0;
+      bottom: 20px;
+      right: 10px;
+      padding: 2px 5px;
     }
   </style>
 </head>
 <body onload="number_pages()">
   <div class="signature-section">
-    <p class="signature-text">Veuillez nous retourner toutes les pages de ce devis daté et signé, précédé de la mention "Bon pour accord".</p>
-    <div class="signature-square"></div>
+    <p>Veuillez nous retourner ce devis daté et signé avec la mention "Bon pour accord".</p>
+    <div class="signature-square">Signature</div>
   </div>
+
   <p class="footer-info">
     <%= @devi.provider.name %> - <%= @devi.provider.address %>, <%= @devi.provider.postal_code %> <%= @devi.provider.city %><br>
     SIRET: <%= @devi.provider.num_siret %><br>
   </p>
+
   <div class="page-number">
     Page <span class="page"></span> sur <span class="topage"></span>
   </div>

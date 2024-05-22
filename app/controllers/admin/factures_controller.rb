@@ -5,7 +5,7 @@ class Admin::FacturesController < Admin::BaseController
 
   # GET /factures or /factures.json
   def index
-    @factures = Facture.all
+    @factures = current_user.factures
     authorize @factures
   end
 
@@ -16,7 +16,7 @@ class Admin::FacturesController < Admin::BaseController
 
   # GET /factures/new
   def new
-    @facture = Facture.new
+    @facture = current_user.factures.build
     @facture.items.build
     authorize @facture
   end
@@ -28,7 +28,7 @@ class Admin::FacturesController < Admin::BaseController
 
   # POST /factures or /factures.json
   def create
-    @facture = Facture.new(facture_params)
+    @facture = current_user.factures.build(facture_params)
     authorize @facture
 
     respond_to do |format|
@@ -36,6 +36,7 @@ class Admin::FacturesController < Admin::BaseController
         format.html { redirect_to admin_facture_url(@facture), notice: "La facture a été créée avec succès." }
         format.json { render :show, status: :created, location: @facture }
       else
+        Rails.logger.info(@facture.errors.full_messages)
         flash.now[:error] = @facture.errors.full_messages.join(', ')
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @facture.errors, status: :unprocessable_entity }
@@ -95,6 +96,6 @@ class Admin::FacturesController < Admin::BaseController
     end
 
     def facture_params
-      params.require(:facture).permit(:client_id, :tva, :status, :liquidation_tva, items_attributes: [:id, :detail, :quantite, :unite, :price, :prix_unitaire_ht, :_destroy])
+      params.require(:facture).permit(:client_id, :provider_id, :tva, :status, :liquidation_tva, :number, items_attributes: [:id, :detail, :quantite, :unite, :price, :prix_unitaire_ht, :_destroy])
     end
 end

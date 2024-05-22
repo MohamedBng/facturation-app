@@ -12,3 +12,9 @@ import ToggleFieldController from "./toggle_field_controller"
 application.register("toggle-field", ToggleFieldController)
 import ProviderSelectionController from "./provider_selection_controller"
 application.register("provider-selection", ProviderSelectionController)
+import VatApplicationController from "./vat_application_controller"
+application.register("vat-application", VatApplicationController)
+import ToggleUnitController from "./toggle_unit_controller"
+application.register("toggle-unit", ToggleUnitController)
+import InteractiveButtonController from "./interactive_button_controller"
+application.register("interactive-button", InteractiveButtonController)

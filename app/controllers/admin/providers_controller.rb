@@ -5,7 +5,7 @@ class Admin::ProvidersController < Admin::BaseController
 
   # GET /providers or /providers.json
   def index
-    @providers = Provider.all
+    @providers = current_user.providers
     authorize @providers
   end
 
@@ -16,7 +16,7 @@ class Admin::ProvidersController < Admin::BaseController
 
   # GET /providers/new
   def new
-    @provider = Provider.new
+    @provider = current_user.providers.build
     authorize @provider
   end
 
@@ -27,7 +27,8 @@ class Admin::ProvidersController < Admin::BaseController
 
   # POST /providers or /providers.json
   def create
-    @provider = Provider.new(provider_params)
+    # Construit un nouveau provider associé au current_user
+    @provider = current_user.providers.build(provider_params)
     authorize @provider
 
     respond_to do |format|
@@ -75,6 +76,13 @@ class Admin::ProvidersController < Admin::BaseController
     render json: { next_number: next_number }
   end
 
+  def next_facture_number
+    provider = Provider.find(params[:id])
+    last_facture = provider.factures.order(number: :desc).first
+    next_number = last_facture ? last_facture.number.to_i + 1 : provider.starting_invoice_number
+    render json: { next_number: next_number }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_provider
@@ -83,6 +91,6 @@ class Admin::ProvidersController < Admin::BaseController
 
     # Only allow a list of trusted parameters through.
     def provider_params
-      params.require(:provider).permit(:name, :address, :city, :postal_code, :num_siret, :logo, :starting_quotation_number)
+      params.require(:provider).permit(:name, :address, :city, :postal_code, :secondary_color, :primary_color, :background_color, :text_color, :num_siret, :logo, :starting_quotation_number, :starting_invoice_number)
     end
 end

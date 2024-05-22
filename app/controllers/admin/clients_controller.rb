@@ -5,7 +5,7 @@ class Admin::ClientsController < Admin::BaseController
 
   # GET /clients or /clients.json
   def index
-    @clients = Client.all
+    @clients = current_user.clients
     authorize @clients
   end
 
@@ -27,7 +27,7 @@ class Admin::ClientsController < Admin::BaseController
 
   # POST /clients or /clients.json
   def create
-    @client = Client.new(client_params)
+    @client = current_user.clients.new(client_params)
     authorize @client
 
     respond_to do |format|
@@ -76,6 +76,6 @@ class Admin::ClientsController < Admin::BaseController
 
     # Only allow a list of trusted parameters through.
     def client_params
-      params.require(:client).permit(:nom_complet, :adresse, :ville, :code_postal, :num_siret)
+      params.require(:client).permit(:nom_complet, :phone_number, :email, :adresse, :ville, :code_postal, :num_siret)
     end
 end
